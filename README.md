@@ -50,6 +50,7 @@ $ python3 -m pip install -r requirements.txt
 $ python3 sherlock --help
 usage: sherlock [-h] [--version] [--verbose] [--folderoutput FOLDEROUTPUT]
                 [--output OUTPUT] [--tor] [--unique-tor] [--csv]
+                [--multiusercsv]
                 [--site SITE_NAME] [--proxy PROXY_URL] [--json JSON_FILE]
                 [--timeout TIMEOUT] [--print-all] [--print-found] [--no-color]
                 [--browse] [--local]
@@ -77,6 +78,7 @@ optional arguments:
                         request; increases runtime; requires Tor to be
                         installed and in system path.
   --csv                 Create Comma-Separated Values (CSV) File.
+  --multiusercsv        Create single Comma-Separated Values (CSV) File for output from multiple usernames.
   --site SITE_NAME      Limit analysis to just the listed sites. Add multiple
                         options to specify more than one site.
   --proxy PROXY_URL, -p PROXY_URL
