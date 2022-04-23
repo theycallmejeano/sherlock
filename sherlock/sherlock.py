@@ -506,6 +506,10 @@ def main():
                         action="store_true", dest="csv", default=False,
                         help="Create Comma-Separated Values (CSV) File."
                         )
+    parser.add_argument("--multiusercsv",
+                        action="store_true", dest="multiusercsv", default=False,
+                        help="Create single Comma-Separated Values (CSV) File for output from multiple usernames."
+                        )
     parser.add_argument("--site",
                         action="append", metavar="SITE_NAME",
                         dest="site_list", default=None,
@@ -579,7 +583,7 @@ def main():
 
     if args.tor or args.unique_tor:
         print("Using Tor to make requests")
-        
+
         print(
             "Warning: some websites might refuse connecting over Tor, so note that using this option might increase connection errors.")
 
@@ -648,6 +652,7 @@ def main():
 
     # Run report on all specified users.
     all_usernames = []
+    csv_rows = []
     for username in args.username:
         if(CheckForParameter(username)):
             for name in MultipleUsernames(username):
@@ -716,6 +721,40 @@ def main():
                                      response_time_s
                                      ]
                                     )
+
+        if args.multiusercsv:
+            result_file = "multiple_username_output.csv"
+            if args.folderoutput:
+                # The usernames results should be stored in a targeted folder.
+                # If the folder doesn't exist, create it first
+                os.makedirs(args.folderoutput, exist_ok=True)
+                result_file = os.path.join(args.folderoutput, result_file)
+
+            with open(result_file, "w", newline='', encoding="utf-8") as csv_report:
+                writer = csv.writer(csv_report)
+                writer.writerow(["username",
+                                 "name",
+                                 "url_main",
+                                 "url_user",
+                                 "exists",
+                                 "http_status",
+                                 "response_time_s"
+                                 ]
+                                )
+                for site in results:
+                    response_time_s = results[site]["status"].query_time
+                    if response_time_s is None:
+                        response_time_s = ""
+                    csv_rows.append([username,
+                                     site,
+                                     results[site]["url_main"],
+                                     results[site]["url_user"],
+                                     str(results[site]["status"].status),
+                                     results[site]["http_status"],
+                                     response_time_s
+                                     ]
+                                    )
+                writer.writerows(csv_rows)
         print()
     query_notify.finish()
 
