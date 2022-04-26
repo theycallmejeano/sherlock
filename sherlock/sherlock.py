@@ -668,7 +668,8 @@ def main():
                            unique_tor=args.unique_tor,
                            proxy=args.proxy,
                            timeout=args.timeout)
-
+        # TODO remove this commented block, was causing generation of txt file where unwanted
+        """
         if args.output:
             result_file = args.output
         elif args.folderoutput:
@@ -688,7 +689,7 @@ def main():
                     file.write(dictionary["url_user"] + "\n")
             file.write(
                 f"Total Websites Username Detected On : {exists_counter}\n")
-
+        """
         if args.csv:
             result_file = f"{username}.csv"
             if args.folderoutput:
