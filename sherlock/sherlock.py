@@ -507,7 +507,7 @@ def main():
                         help="Create Comma-Separated Values (CSV) File."
                         )
     parser.add_argument("--multiusercsv",
-                        action="store_true", dest="multiusercsv", default=False,
+                        dest="multiusercsv",
                         help="Create single Comma-Separated Values (CSV) File for output from multiple usernames."
                         )
     parser.add_argument("--site",
@@ -724,7 +724,7 @@ def main():
                                     )
 
         if args.multiusercsv:
-            result_file = "multiple_username_output.csv"
+            result_file = f"{args.multiusercsv}.csv"
             if args.folderoutput:
                 # The usernames results should be stored in a targeted folder.
                 # If the folder doesn't exist, create it first
